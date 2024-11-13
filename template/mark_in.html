@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark In - Face Recognition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        #header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        #header img {
+            height: 60px;
+        }
+        #header h1 {
+            display: inline;
+            margin-left: 20px;
+            vertical-align: middle;
+        }
+        #left-column {
+            float: left;
+            width: 25%;
+            padding: 20px;
+        }
+        #right-column {
+            float: right;
+            width: 65%;
+            padding: 20px;
+        }
+        #footer {
+            clear: both;
+            background-color: #333;
+            color: white;
+            text-align: left;
+            padding: 5px 20px;
+            position: fixed;
+            left: 20px;
+            bottom: 10px;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 60%;
+            overflow: hidden;
+        }
+        #video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2e/Indian_Institute_of_Information_Technology%2C_Allahabad_Logo.png/220px-Indian_Institute_of_Information_Technology%2C_Allahabad_Logo.png" alt="Logo">
+        <h1>GateX</h1>
+    </div>
+
+    <div id="left-column">
+        <h2>Mark Student as In</h2>
+        <h3>Upload a face image to mark the student in to campus</h3>
+        <form action="/mark_in" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <input type="submit" value="Mark In">
+        </form>
+
+    </div>
+
+    <div id="right-column">
+        <button id="capture-button">Mark In</button>
+        <div class="video-container">
+            <iframe id="video" src="/video_feed"></iframe>
+        </div> 
+    </div>
+
+    <div id="footer">
+        <p>Project by: Group 5</p>
+        <p>IIT2023150 Tavish , IIT2023160 Keesha</p>
+        <p>IIT2023155 Puravi , IIT2023161 Lakshya</p>
+        <p>IIT2023148 Hridayesh , IIT2023156 Krishika </p>
+        <p>Powered by: Python, Flask, OpenCV, Firebase</p>
+    </div>
+
+    <script>
+        document.getElementById('capture-button').addEventListener('click', function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/markin', true);  // Ensure this matches the action in the form
+            xhr.onload = function() {
+                var response = JSON.parse(xhr.responseText);
+                if (xhr.status === 200) {
+                    alert(response.message);  // Show success message
+                    window.location.href = '/home';  // Redirect after success
+                } else {
+                    alert(response.message);  // Show error message
+                }
+            };
+            xhr.onerror = function() {
+                alert("An error occurred while processing the request.");
+            };
+            xhr.send();
+        });
+    </script>
+</body>
+</html>

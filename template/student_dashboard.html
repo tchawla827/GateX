@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to Your Dashboard</h1>
+    <p><strong>Name:</strong> {{ student.name }}</p>
+    <p><strong>Roll Number:</strong> {{ student.rollNumber }}</p>
+    <p><strong>Email:</strong> {{ student.email }}</p>
+    <p><strong>Phone:</strong> {{ student.phone }}</p>
+    <p><strong>Class:</strong> {{ student.classes }}</p>
+
+    <h2>Request Outpass</h2>
+    <form action="/submit_outpass_request" method="POST">
+        <input type="hidden" name="name" value="{{ student.name }}">
+        <input type="hidden" name="rollNumber" value="{{ student.rollNumber }}">
+        <label for="outgoing_date">Outgoing Date:</label>
+        <input type="date" name="outgoing_date" required>
+        <label for="outgoing_time">Outgoing Time:</label>
+        <input type="time" name="outgoing_time" required>
+        <label for="ingoing_date">Ingoing Date:</label>
+        <input type="date" name="ingoing_date" required>
+        <label for="ingoing_time">Ingoing Time:</label>
+        <input type="time" name="ingoing_time" required>
+        <label for="reason">Reason for Going Out:</label>
+        <textarea name="reason" required></textarea>
+        <button type="submit">Submit Request</button>
+    </form>
+
+    <h2>Your Outpass Requests</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Reason</th>
+                <th>Outgoing Date</th>
+                <th>Outgoing Time</th>
+                <th>Ingoing Date</th>
+                <th>Ingoing Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if requests %}
+                {% for request in requests %}
+                <tr>
+                    <td>{{ request.reason }}</td>
+                    <td>{{ request.outgoing_date }}</td>
+                    <td>{{ request.outgoing_time }}</td>
+                    <td>{{ request.ingoing_date }}</td>
+                    <td>{{ request.ingoing_time }}</td>
+                    <td>{{ request.status }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6">No requests found.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</body>
+</html>

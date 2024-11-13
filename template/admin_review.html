@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Review</title>
+</head>
+<body>
+    <h1>Outpass Requests Review</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Roll Number</th>
+                <th>Outgoing Date</th>
+                <th>Outgoing Time</th>
+                <th>Ingoing Date</th>
+                <th>Ingoing Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+                <tr>
+                    <td>{{ request.name }}</td>
+                    <td>{{ request.rollNumber }}</td>
+                    <td>{{ request.outgoing_date }}</td>
+                    <td>{{ request.outgoing_time }}</td>
+                    <td>{{ request.ingoing_date }}</td>
+                    <td>{{ request.ingoing_time }}</td>
+                    <td>{{ request.reason }}</td>
+                    <td>{{ request.status }}</td>
+                    <td>
+                        {% if request.status == 'Pending' %}
+                            <form action="/update_request_status" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="{{ request.id }}">
+                                <input type="hidden" name="status" value="Approved">
+                                <button type="submit">Approve</button>
+                            </form>
+                            <form action="/update_request_status" method="POST" style="display:inline;">
+                                <input type="hidden" name="id" value="{{ request.id }}">
+                                <input type="hidden" name="status" value="Rejected">
+                                <button type="submit">Reject</button>
+                            </form>
+                        {% else %}
+                            {{ request.status }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">No requests found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Out Students</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .button {
+            display: block;
+            width: 200px;
+            margin: 0 auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Students Currently Marked Out</h1>
+    
+    {% if out_students %}
+        <table>
+            <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Marked Out At</th>
+            </tr>
+            {% for student_id, student_info in out_students.items() %}
+                <tr>
+                    <td>{{ student_info['rollNumber']}}</td>
+                    <td>{{ student_info['name'] }}</td>
+                    <td>{{ student_info['time_out'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No students are currently marked out.</p>
+    {% endif %}
+    
+    <a href="/" class="button">Back to Home</a>
+</body>
+</html>
+

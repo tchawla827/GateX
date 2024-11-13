@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student History</title>
+</head>
+<body>
+    <h1>History of Student Movements</h1>
+
+    {% if history %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Roll Number</th>
+                <th>Marked Out Time</th>
+                <th>Marked In Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, entry in history.items() %}
+                <tr>
+                    <td>{{ entry.name }}</td>
+                    <td>{{ entry.rollNumber }}</td>
+                    <td>{{ entry.time_out}}</td>
+                    <td>{{ entry.time_in }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No history available at the moment.</p>
+    {% endif %}
+</body>
+</html>

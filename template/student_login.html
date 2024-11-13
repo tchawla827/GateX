@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .login-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .login-button:hover {
+            background-color: #45a049;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+        input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function showForm(role) {
+            document.getElementById('teacher-form').style.display = role === 'teacher' ? 'block' : 'none';
+            document.getElementById('student-form').style.display = role === 'student' ? 'block' : 'none';
+        }
+    </script>
+</head>
+<body>
+    <h1>Login</h1>
+    <div class="button-container">
+        <button class="login-button" onclick="showForm('student')">Student Login</button>
+        <button class="login-button" onclick="showForm('teacher')">Teacher Login</button>
+    </div>
+
+    <!-- Display student form by default -->
+    <div id="student-form" class="form-container">
+        <form action="/student_login" method="post">
+            <label for="student-id">Student ID</label>
+            <input type="text" id="student-id" name="rollNumber" placeholder="Enter Student ID" required>
+            
+            <label for="password">Password</label>
+            <input type="password" id="student-password" name="password" placeholder="Enter Password" required>
+            
+            <input type="submit" value="Login">
+        </form>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="error-message">
+                    <p>{{ messages[0] }}</p>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+    
+
+    <!-- Teacher form is hidden by default -->
+    <div id="teacher-form" class="form-container" style="display: none;">
+        <form action="/teacher_login" method="post">
+            <label for="teacher-name">Teacher's Name</label>
+            <input type="text" id="teacher-name" name="teacher_name" placeholder="Enter your name" required>
+            <label for="teacher-password">Password</label>
+            <input type="password" id="teacher-password" name="password" placeholder="Enter password" required>
+            <input type="submit" value="Login">
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="error-message">
+                    <p>{{ messages[0] }}</p>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
