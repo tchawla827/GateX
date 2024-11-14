@@ -92,12 +92,13 @@ def match_with_database(img, database):
             return "No face detected"
 
 
-app = Flask(__name__, template_folder="template")
+app = Flask(__name__, template_folder="template", static_folder="static")
+
 
 app.jinja_env = Environment(
     loader=FileSystemLoader("template"), autoescape=select_autoescape(["html", "xml"])
 )
-
+app.jinja_env.globals.update(url_for=url_for)
 app.secret_key = "123456"
 
 
@@ -107,15 +108,24 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 @app.route("/")
 def login():
-
     return render_template(
         "student_login.html", get_flashed_messages=get_flashed_messages
     )
 
+@app.route("/logout")
+def logout():
+    return render_template(
+        "student_login.html", get_flashed_messages=get_flashed_messages
+    )
 
 @app.route("/home")
 def home():
     return render_template("home.html")
+
+
+@app.route("/try")
+def test():
+    return render_template("try.html")  # Create a basic test.html template to test url_for
 
 
 @app.route("/add_info")
@@ -707,7 +717,6 @@ def gen_frames():
 
 @app.route("/admin_review")
 def admin_review():
-
     outpass_requests_ref = db.reference("Outpass Requests")
     outpass_requests = outpass_requests_ref.get()
 
@@ -715,7 +724,21 @@ def admin_review():
     if outpass_requests:
         for key, value in outpass_requests.items():
             value["id"] = key
+            # Convert outgoing_date to a datetime object for sorting, if present
+            if "outgoing_date" in value:
+                value["outgoing_datetime"] = datetime.strptime(value["outgoing_date"], "%Y-%m-%d")
+            else:
+                value["outgoing_datetime"] = datetime.max  # Use a max date if not present
             request_list.append(value)
+
+    # Sort by status ('Pending' first) and then by outgoing date (earliest date first)
+    request_list.sort(
+        key=lambda x: (x["status"] != "Pending", x["outgoing_datetime"])
+    )
+
+    # Remove the temporary outgoing_datetime key after sorting
+    for request in request_list:
+        request.pop("outgoing_datetime", None)
 
     return render_template("admin_review.html", requests=request_list)
 
