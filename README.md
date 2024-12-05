@@ -63,20 +63,12 @@ GateX offers the following features:
 
 ---
 
-## Screenshots
-
-<figure align="center"> 
-  <img src="docs/images/main_page.png" alt="GateX Home" height="400"/>
-  <figcaption>GateX Home Page</figcaption>
-</figure>
-
----
 
 ## Installation
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-repo/GateX.git
+   git clone https://github.com/tchawla827/GateX.git
    ```
 
 2. **Set Up Environment**:
@@ -138,22 +130,6 @@ Contributions are welcome! Open an issue or submit a pull request for bug fixes,
 
 ---
 
-## License
 
-This project is licensed under the MIT License.
 
----
 
-## Technical Information
-
-### System Architecture
-
-<figure align="center"> 
-  <img src="docs/images/system_architecture_design.png" alt="System Architecture" width="600"/>
-</figure>
-
-### Database Design
-
-<figure align="center"> 
-  <img src="docs/images/database_design.png" alt="Database Design" height="400"/>
-</figure>
